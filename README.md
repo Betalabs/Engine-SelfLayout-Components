@@ -1,2 +1,2 @@
-# Engine-SelfLayout-Template-Base
-Base blade template for Engine Self Layout structure
+# Engine-SelfLayout-Components
+Blade template components for Engine Self Layout structure
