@@ -1,6 +1,6 @@
 {
-    "name": "betalabs/engine-self-layout-template",
-    "description": "Base blade template for Engine Self Layout structure",
+    "name": "betalabs/engine-self-layout-components",
+    "description": "Blade template components for Engine Self Layout structure",
     "type": "library",
     "authors": [
         {
