@@ -25,7 +25,7 @@ class ComponentsServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/resources/views', 'engine-components');
         $this->publishes([
-            __DIR__.'/resources/views' => resource_path('views/vendor/courier'),
+            __DIR__.'/resources/views' => resource_path('views/vendor/engine-components'),
         ]);
     }
 }
