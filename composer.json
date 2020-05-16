@@ -33,7 +33,7 @@
         "laravel": {
             "dont-discover": [],
             "providers": [
-                "App\\Providers\\ComponentsServiceProvider"
+                "EngineSelfLayoutComponents\\Providers\\ComponentsServiceProvider"
             ]
         }
     },
