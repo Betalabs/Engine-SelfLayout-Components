@@ -1,1 +1,0 @@
-@include('menus.menu1.base')
