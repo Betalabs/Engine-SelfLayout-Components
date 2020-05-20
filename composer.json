@@ -10,7 +10,8 @@
     ],
     "keywords": [],
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.2",
+        "betalabs/engine-seiko": "dev-master",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
