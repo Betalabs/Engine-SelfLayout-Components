@@ -12,8 +12,9 @@ class Mapper
     {
         $colors = collect();
         foreach ($internalLayout->getColors() as $color) {
-
+            // TODO Create or update related to layout
         }
+        // TODO Remove all deprecated/unused colors
 
         return $colors;
     }

@@ -12,8 +12,9 @@ class Mapper
     {
         $components = collect();
         foreach ($internalLayout->getComponents() as $component) {
-
+            // TODO Create or update related to layout
         }
+        // TODO Remove all deprecated/unused components
 
         return $components;
     }
