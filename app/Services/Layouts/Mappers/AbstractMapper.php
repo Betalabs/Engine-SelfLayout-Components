@@ -6,6 +6,7 @@ namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers;
 use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Layouts\Mappers\PackageConfigurationsFileDoesNotExistsException;
 use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Layouts\Mappers\PackageConfigurationsJsonInvalidContentException;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +18,7 @@ abstract class AbstractMapper
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseLayouts()
+    protected function parseLayouts(): Collection
     {
         $configurations = $this->parseLayoutsConfigurations();
         $layouts = collect();
@@ -33,7 +34,7 @@ abstract class AbstractMapper
      *
      * @return \Illuminate\Support\Collection
      */
-    private function parseLayoutsConfigurations()
+    private function parseLayoutsConfigurations(): Collection
     {
         $configurations = collect();
         foreach ($this->retrieveLayouts() as $layout => $packageName) {
@@ -55,9 +56,9 @@ abstract class AbstractMapper
      *
      * @param string $packageName
      *
-     * @return \stdClass
+     * @return array
      */
-    private function loadConfigurationFileContent(string $packageName)
+    private function loadConfigurationFileContent(string $packageName): array
     {
         $configurationsFilePath = base_path("vendor/{$packageName}/configuration.json");
         if (!File::exists($configurationsFilePath)) {
@@ -70,7 +71,9 @@ abstract class AbstractMapper
         $decodedFileContent = json_decode($fileContent, true);
         if (null === $decodedFileContent && JSON_ERROR_NONE !== json_last_error()) {
             throw new PackageConfigurationsJsonInvalidContentException(
-                "Invalid json content on file `{$configurationsFilePath}`: ".json_last_error_msg()
+                "Invalid json content on file `{$configurationsFilePath}`: "
+                .json_last_error().'::'
+                .json_last_error_msg()
             );
         }
 
@@ -82,6 +85,6 @@ abstract class AbstractMapper
      *
      * @return array
      */
-    abstract protected function retrieveLayouts();
+    abstract protected function retrieveLayouts(): array;
 
 }

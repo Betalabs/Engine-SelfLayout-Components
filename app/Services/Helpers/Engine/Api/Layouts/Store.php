@@ -3,7 +3,9 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts;
 
 
-class Store
+use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\AbstractCreator;
+
+class Store extends AbstractCreator
 {
 
 }

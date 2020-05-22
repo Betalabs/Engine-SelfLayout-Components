@@ -6,6 +6,7 @@ namespace Betalabs\EngineSelfLayoutComponents\Tests\Unit\app\Services\Layouts\Ma
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Destroy as EngineApiLayoutDestroyer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Index as EngineApiLayoutIndexer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Unavailables;
 use Betalabs\EngineSelfLayoutComponents\Tests\TestCase;
 use Illuminate\Support\Facades\Config;
@@ -38,6 +39,7 @@ class UnavailablesTest extends TestCase
             ->andReturn(2);
 
         $engineApiLayoutIndexer = \Mockery::mock(EngineApiLayoutIndexer::class);
+        $engineApiLayoutIndexer->makePartial();
         $engineApiLayoutIndexer->shouldReceive('index')
             ->twice()
             ->andReturn(collect([$engineLayout]));
@@ -51,7 +53,7 @@ class UnavailablesTest extends TestCase
         $availables->map();
     }
 
-    public function testMapShouldSkipAlreadyDestroyedLayout()
+    public function testMapShouldSkipAlreadyDestroyedNotFoundByAliasLayout()
     {
         Config::shouldReceive('get')->with('layouts.unavailable')->once()
             ->andReturn([
@@ -73,12 +75,34 @@ class UnavailablesTest extends TestCase
             ->once()
             ->andReturn(2);
 
+        $internalLayout = \Mockery::mock(Layout::class);
+        $internalLayout->makePartial();
+        $internalLayout->shouldReceive('getAlias')->once()
+            ->andReturn('test');
+        $internalLayout->shouldReceive('getAlias')->once()
+            ->andReturn('already-destroyed');
+        $this->app->instance(Layout::class, $internalLayout);
+
         $engineApiLayoutDestroyer = \Mockery::mock(EngineApiLayoutDestroyer::class);
         $engineApiLayoutDestroyer->shouldReceive('destroy')->once();
+
         $engineApiLayoutIndexer = \Mockery::mock(EngineApiLayoutIndexer::class);
+        $engineApiLayoutIndexer->makePartial();
+        $engineApiLayoutIndexer->shouldReceive('setQuery')
+            ->once()
+            ->with([
+                'alias' => 'already-destroyed'
+            ])
+            ->andReturnSelf();
         $engineApiLayoutIndexer->shouldReceive('index')
             ->once()
             ->andReturn(collect());
+        $engineApiLayoutIndexer->shouldReceive('setQuery')
+            ->once()
+            ->with([
+                'alias' => 'test'
+            ])
+            ->andReturnSelf();
         $engineApiLayoutIndexer->shouldReceive('index')
             ->once()
             ->andReturn(collect([$engineLayout]));

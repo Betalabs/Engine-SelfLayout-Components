@@ -51,6 +51,7 @@ class Unavailables extends AbstractMapper
      * Call Engine API to delete layout instance.
      *
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     *
      */
     private function deleteLayout(Layout $layout)
     {
@@ -74,9 +75,12 @@ class Unavailables extends AbstractMapper
     private function findEngineLayout(Layout $layout): ?EngineLayout
     {
         return $this->engineApiLayoutIndexer
-            ->index([
-                // TODO build query string
+            ->setQuery([
+                'alias' => $layout->getAlias()
             ])
+            ->setLimit(1)
+            ->setOffset(0)
+            ->index()
             ->first();
     }
 
@@ -85,7 +89,7 @@ class Unavailables extends AbstractMapper
      *
      * @return array
      */
-    protected function retrieveLayouts()
+    protected function retrieveLayouts(): array
     {
         return Config::get('layouts.unavailable');
     }

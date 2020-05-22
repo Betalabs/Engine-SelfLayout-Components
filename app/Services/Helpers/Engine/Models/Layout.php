@@ -3,14 +3,15 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models;
 
 
-class Layout
+class Layout implements EngineModelInterface
 {
+    /** @var integer */
     protected $id;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

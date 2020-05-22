@@ -3,15 +3,33 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api;
 
 
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
+use Betalabs\LaravelHelper\Services\Engine\AbstractIndexer as BaseAbstractIndexer;
 use Illuminate\Support\Collection;
 
-abstract class AbstractIndexer
+abstract class AbstractIndexer extends BaseAbstractIndexer implements IndexerInterface
 {
-    public function index($query): Collection
+    /**
+     * Retrieve a resource
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function index(): Collection
     {
-        return collect([
-            new EngineLayout()
-        ]);
+        $this->engineResourceIndexer->setOffset($this->offset);
+        $data = parent::index();
+
+        return $this->map($data);
+    }
+
+    /**
+     * Map response data.
+     *
+     * @param $data
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function map($data)
+    {
+        return $data;
     }
 }

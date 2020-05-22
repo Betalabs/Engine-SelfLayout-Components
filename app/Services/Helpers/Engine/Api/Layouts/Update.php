@@ -3,7 +3,9 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts;
 
 
-class Update
+use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\AbstractUpdater;
+
+class Update extends AbstractUpdater
 {
 
 }
