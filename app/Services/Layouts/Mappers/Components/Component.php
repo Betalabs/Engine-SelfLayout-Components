@@ -5,7 +5,18 @@ namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Component
 
 class Component
 {
-    public static function fromJson(\stdClass $json)
+    /** @var string */
+    private $name;
+    /** @var string */
+    private $description;
+    /** @var string */
+    private $path;
+    /** @var string */
+    private $mainFile;
+    /** @var \Illuminate\Support\Collection */
+    private $parameters;
+
+    public static function fromArray(array $data)
     {
         // TODO
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components;
+namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors;
 
 
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
@@ -10,11 +10,11 @@ class Mapper
 {
     public function map(EngineLayout $engineLayout, Layout $internalLayout)
     {
-        $components = collect();
-        foreach ($internalLayout->getComponents() as $component) {
+        $colors = collect();
+        foreach ($internalLayout->getColors() as $color) {
 
         }
 
-        return $components;
+        return $colors;
     }
 }

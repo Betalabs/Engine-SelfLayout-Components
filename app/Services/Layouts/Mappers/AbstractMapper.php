@@ -3,8 +3,11 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers;
 
 
+use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Layouts\Mappers\PackageConfigurationsFileDoesNotExistsException;
+use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Layouts\Mappers\PackageConfigurationsJsonInvalidContentException;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 abstract class AbstractMapper
 {
@@ -16,10 +19,10 @@ abstract class AbstractMapper
      */
     protected function parseLayouts()
     {
-        $configurationsJsons = $this->parseLayoutsConfigurationsJsons();
+        $configurations = $this->parseLayoutsConfigurations();
         $layouts = collect();
-        foreach ($configurationsJsons as $configurationsJson) {
-            $layouts->push(Layout::fromJson($configurationsJson));
+        foreach ($configurations as $configuration) {
+            $layouts->push(Layout::fromArray($configuration));
         }
 
         return $layouts;
@@ -30,15 +33,21 @@ abstract class AbstractMapper
      *
      * @return \Illuminate\Support\Collection
      */
-    private function parseLayoutsConfigurationsJsons()
+    private function parseLayoutsConfigurations()
     {
-        $jsons = collect();
+        $configurations = collect();
         foreach ($this->retrieveLayouts() as $layout => $packageName) {
-            $json = $this->loadConfigurationJson($packageName);
-            $jsons->put($layout, $json);
+            try {
+                $configuration = $this->loadConfigurationFileContent($packageName);
+                $configurations->put($layout, $configuration);
+            } catch (PackageConfigurationsFileDoesNotExistsException $e) {
+                Log::info($e->getMessage());
+            } catch (PackageConfigurationsJsonInvalidContentException $e) {
+                Log::info($e->getMessage());
+            }
         }
 
-        return $jsons;
+        return $configurations;
     }
 
     /**
@@ -48,10 +57,24 @@ abstract class AbstractMapper
      *
      * @return \stdClass
      */
-    private function loadConfigurationJson(string $packageName)
+    private function loadConfigurationFileContent(string $packageName)
     {
-        $fileContent = File::get(__DIR__."/{$packageName}/configuration.json");
-        return json_decode($fileContent);
+        $configurationsFilePath = base_path("vendor/{$packageName}/configuration.json");
+        if (!File::exists($configurationsFilePath)) {
+            throw new PackageConfigurationsFileDoesNotExistsException(
+                "Package {$packageName} configurations.json file does not exists in `{$configurationsFilePath}`"
+            );
+        }
+
+        $fileContent = File::get(base_path("vendor/{$packageName}/configuration.json"));
+        $decodedFileContent = json_decode($fileContent, true);
+        if (null === $decodedFileContent && JSON_ERROR_NONE !== json_last_error()) {
+            throw new PackageConfigurationsJsonInvalidContentException(
+                "Invalid json content on file `{$configurationsFilePath}`: ".json_last_error_msg()
+            );
+        }
+
+        return $decodedFileContent;
     }
 
     /**

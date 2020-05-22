@@ -4,22 +4,30 @@ namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers;
 
 
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors\Mapper as ColorsMapper;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components\Mapper as ComponentsMapper;
+use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
 use Illuminate\Support\Facades\Config;
 
 class Availables extends AbstractMapper
 {
     /** @var \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components\Mapper */
     private $componentsMapper;
+    /** @var \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors\Mapper */
+    private $colorsMapper;
 
     /**
      * Mapper constructor.
      *
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components\Mapper $componentsMapper
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors\Mapper     $colorsMapper
      */
-    public function __construct(ComponentsMapper $componentsMapper)
-    {
+    public function __construct(
+        ComponentsMapper $componentsMapper,
+        ColorsMapper $colorsMapper
+    ) {
         $this->componentsMapper = $componentsMapper;
+        $this->colorsMapper = $colorsMapper;
     }
 
     /**
@@ -32,6 +40,7 @@ class Availables extends AbstractMapper
             $engineLayout = $this->createLayout($layout);
 
             $this->componentsMapper->map($engineLayout, $layout);
+            $this->colorsMapper->map($engineLayout, $layout);
         }
     }
 
@@ -40,10 +49,12 @@ class Availables extends AbstractMapper
      * Layout.
      *
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     *
+     * @return \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout
      */
     private function createLayout(Layout $layout)
     {
-        // TODO
+        return new EngineLayout();
     }
 
     /**
