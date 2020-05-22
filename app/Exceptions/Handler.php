@@ -1,6 +1,6 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Exceptions;
+namespace Betalabs\EngineSelfLayoutComponents\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;

@@ -1,6 +1,6 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Providers;
+namespace Betalabs\EngineSelfLayoutComponents\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'EngineSelfLayoutComponents\Http\Controllers';
+    protected $namespace = 'Betalabs\EngineSelfLayoutComponents\Http\Controllers';
 
     /**
      * The path to the "home" route for your application.
@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        // \Betalabs\LaravelHelper\LaravelHelper::routes();
     }
 
     /**

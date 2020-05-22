@@ -1,6 +1,6 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Http\Middleware;
+namespace Betalabs\EngineSelfLayoutComponents\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode as Middleware;
 

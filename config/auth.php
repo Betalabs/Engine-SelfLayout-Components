@@ -68,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => EngineSelfLayoutComponents\User::class,
+            'model' => Betalabs\EngineSelfLayoutComponents\User::class,
         ],
 
         // 'users' => [

@@ -1,8 +1,8 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Http\Middleware;
+namespace Betalabs\EngineSelfLayoutComponents\Http\Middleware;
 
-use EngineSelfLayoutComponents\Providers\RouteServiceProvider;
+use Betalabs\EngineSelfLayoutComponents\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 

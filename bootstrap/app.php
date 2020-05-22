@@ -28,17 +28,17 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    EngineSelfLayoutComponents\Http\Kernel::class
+    Betalabs\EngineSelfLayoutComponents\Http\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    EngineSelfLayoutComponents\Console\Kernel::class
+    Betalabs\EngineSelfLayoutComponents\Console\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    EngineSelfLayoutComponents\Exceptions\Handler::class
+    Betalabs\EngineSelfLayoutComponents\Exceptions\Handler::class
 );
 
 /*

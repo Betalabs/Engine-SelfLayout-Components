@@ -1,6 +1,6 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Http;
+namespace Betalabs\EngineSelfLayoutComponents\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -14,11 +14,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \EngineSelfLayoutComponents\Http\Middleware\TrustProxies::class,
+        \Betalabs\EngineSelfLayoutComponents\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
-        \EngineSelfLayoutComponents\Http\Middleware\CheckForMaintenanceMode::class,
+        \Betalabs\EngineSelfLayoutComponents\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \EngineSelfLayoutComponents\Http\Middleware\TrimStrings::class,
+        \Betalabs\EngineSelfLayoutComponents\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
@@ -29,12 +29,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \EngineSelfLayoutComponents\Http\Middleware\EncryptCookies::class,
+            \Betalabs\EngineSelfLayoutComponents\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \EngineSelfLayoutComponents\Http\Middleware\VerifyCsrfToken::class,
+            \Betalabs\EngineSelfLayoutComponents\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -52,12 +52,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \EngineSelfLayoutComponents\Http\Middleware\Authenticate::class,
+        'auth' => \Betalabs\EngineSelfLayoutComponents\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \EngineSelfLayoutComponents\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \Betalabs\EngineSelfLayoutComponents\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

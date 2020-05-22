@@ -1,6 +1,6 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Http\Middleware;
+namespace Betalabs\EngineSelfLayoutComponents\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
