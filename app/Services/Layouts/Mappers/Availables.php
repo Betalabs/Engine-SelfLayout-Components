@@ -7,7 +7,6 @@ use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Actions\Upda
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Index as EngineApiLayoutIndexer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Update as EngineApiLayoutUpdater;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Store as EngineApiLayoutCreator;
-use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors\Mapper as ColorsMapper;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components\Mapper as ComponentsMapper;
 use Illuminate\Support\Facades\Config;
@@ -75,7 +74,7 @@ class Availables extends AbstractMapper
      * Try to find Layout at Engine API using Layout alias and update them if
      * exists or create if not exists.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout $layout
      *
      * @return \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout
      */
@@ -95,7 +94,7 @@ class Availables extends AbstractMapper
     /**
      * Prepare indexer API resource setting layout data.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout $layout
      */
     private function prepareIndexer(Layout $layout)
     {
@@ -110,7 +109,7 @@ class Availables extends AbstractMapper
     /**
      * Prepare updater API resource setting layout data.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout $layout
      */
     private function prepareUpdater(Layout $layout)
     {
@@ -123,7 +122,7 @@ class Availables extends AbstractMapper
     /**
      * Prepare creator API resource setting layout data.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout $layout
      */
     private function prepareCreator(Layout $layout)
     {

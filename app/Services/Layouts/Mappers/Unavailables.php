@@ -8,6 +8,7 @@ use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Dest
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Index as EngineApiLayoutIndexer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\AbstractMapper;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
@@ -50,7 +51,7 @@ class Unavailables extends AbstractMapper
     /**
      * Call Engine API to delete layout instance.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout $layout
      *
      */
     private function deleteLayout(Layout $layout)
@@ -68,7 +69,7 @@ class Unavailables extends AbstractMapper
     /**
      * Find layout instance from Engine API.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout $layout
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout $layout
      *
      * @return \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout
      */

@@ -6,7 +6,7 @@ namespace Betalabs\EngineSelfLayoutComponents\Tests\Unit\app\Services\Layouts\Ma
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Destroy as EngineApiLayoutDestroyer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Index as EngineApiLayoutIndexer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
-use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Unavailables;
 use Betalabs\EngineSelfLayoutComponents\Tests\TestCase;
 use Illuminate\Support\Facades\Config;

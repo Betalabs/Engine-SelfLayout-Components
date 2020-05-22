@@ -3,7 +3,7 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors;
 
 
-use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
 
 class Mapper

@@ -1,7 +1,9 @@
 <?php
 
-namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts;
+namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers;
 
+
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\AbstractMapperEntity;
 
 class Layout extends AbstractMapperEntity
 {

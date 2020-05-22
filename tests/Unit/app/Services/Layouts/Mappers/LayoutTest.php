@@ -1,15 +1,17 @@
 <?php
 
-namespace Betalabs\EngineSelfLayoutComponents\Tests\Unit\app\Services\Layouts;
+namespace Betalabs\EngineSelfLayoutComponents\Tests\Unit\app\Services\Layouts\Mappers;
 
 
-use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors\Color;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components\Component;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout;
 use Betalabs\EngineSelfLayoutComponents\Tests\TestCase;
 use Illuminate\Support\Collection;
 
 class LayoutTest extends TestCase
 {
-    public function testFromJsonShouldFillLayoutProperties()
+    public function testFromArrayShouldFillLayoutPropertiesAndNestedRelatedValues()
     {
         $json = '{"name": "Test Layout", "alias": "test-layout", "paths":{"views": "src/views", "images": "src/assets/images", "scripts": "src/assets/scripts", "styles": "src/assets/styles", "fonts": "src/assets/fonts", "videos": "src/assets/videos"}, "main_file": "main.blade.php", "colors": [{"identification": "pink", "label": "Pink", "default": true},{"identification": "blue", "label": "Blue", "default": false}], "components": [{"name": "Component 1", "description": "First component", "path": "component1", "main_file": "main.blade.php", "parameters": []}, {"name": "Component 2", "description": "Second component", "path": "component2", "main_file": "main.blade.php", "parameters": []}]}';
         $data = json_decode($json, true);
@@ -56,12 +58,28 @@ class LayoutTest extends TestCase
             $layout->getColors()
         );
         $this->assertInstanceOf(
+            Color::class,
+            $layout->getColors()->first()
+        );
+        $this->assertInstanceOf(
+            Color::class,
+            $layout->getColors()->last()
+        );
+        $this->assertInstanceOf(
             Collection::class,
             $layout->getComponents()
         );
         $this->assertCount(
             2,
             $layout->getComponents()
+        );
+        $this->assertInstanceOf(
+            Component::class,
+            $layout->getComponents()->first()
+        );
+        $this->assertInstanceOf(
+            Component::class,
+            $layout->getComponents()->last()
         );
     }
 }

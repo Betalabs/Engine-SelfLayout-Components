@@ -5,7 +5,6 @@ namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers;
 
 use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Layouts\Mappers\PackageConfigurationsFileDoesNotExistsException;
 use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Layouts\Mappers\PackageConfigurationsJsonInvalidContentException;
-use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Layout;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
