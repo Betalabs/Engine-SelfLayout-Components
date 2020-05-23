@@ -10,7 +10,10 @@
     ],
     "keywords": [],
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.2",
+        "betalabs/engine-laravel-helper": "^0.8.0",
+        "betalabs/engine-phpsdk": "^0.6.2",
+        "betalabs/engine-seiko": "dev-master",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -33,13 +36,14 @@
         "laravel": {
             "dont-discover": [],
             "providers": [
-                "EngineSelfLayoutComponents\\Providers\\ComponentsServiceProvider"
+                "Betalabs\\EngineSelfLayoutComponents\\Providers\\ComponentsServiceProvider"
             ]
         }
     },
     "autoload": {
         "psr-4": {
-            "EngineSelfLayoutComponents\\": "app/"
+            "Betalabs\\EngineSelfLayoutComponents\\": "app/",
+            "Betalabs\\EngineSelfLayoutComponents\\Tests\\": "tests/"
         },
         "classmap": [
             "database/seeds",

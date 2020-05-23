@@ -1,6 +1,6 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Providers;
+namespace Betalabs\EngineSelfLayoutComponents\Providers;
 
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;

@@ -1,6 +1,6 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Providers;
+namespace Betalabs\EngineSelfLayoutComponents\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'EngineSelfLayoutComponents\Model' => 'EngineSelfLayoutComponents\Policies\ModelPolicy',
+        // 'Betalabs\EngineSelfLayoutComponents\Model' => 'Betalabs\EngineSelfLayoutComponents\Policies\ModelPolicy',
     ];
 
     /**

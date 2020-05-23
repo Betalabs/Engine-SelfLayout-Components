@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Betalabs\EngineSelfLayoutComponents\Providers\AppServiceProvider::class,
+        Betalabs\EngineSelfLayoutComponents\Providers\AuthServiceProvider::class,
+        // Betalabs\EngineSelfLayoutComponents\Providers\BroadcastServiceProvider::class,
+        Betalabs\EngineSelfLayoutComponents\Providers\EventServiceProvider::class,
+        Betalabs\EngineSelfLayoutComponents\Providers\RouteServiceProvider::class,
 
     ],
 

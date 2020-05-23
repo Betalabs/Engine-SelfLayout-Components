@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Betalabs\EngineSelfLayoutComponents\Tests;
 
 use Illuminate\Contracts\Console\Kernel;
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace EngineSelfLayoutComponents\Providers;
+namespace Betalabs\EngineSelfLayoutComponents\Providers;
 
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Betalabs\LaravelHelper\Events\GenesisCompleted;
+use Betalabs\EngineSelfLayoutComponentsListeners\MapLayouts;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,9 +14,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
+        GenesisCompleted::class => [
+            MapLayouts::class
+        ]
     ];
 
     /**
