@@ -3,7 +3,7 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models;
 
 
-class Layout implements EngineModelInterface
+class Component implements EngineModelInterface
 {
     /** @var integer */
     protected $id;
@@ -17,22 +17,22 @@ class Layout implements EngineModelInterface
     }
 
     /**
-     * @param int $id
-     *
-     * @return Layout
-     */
-    public function setId(int $id): Layout
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Component
+     */
+    public function setId(int $id): Component
+    {
+        $this->id = $id;
+
+        return $this;
     }
 }

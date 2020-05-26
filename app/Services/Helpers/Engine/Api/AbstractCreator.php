@@ -22,7 +22,7 @@ abstract class AbstractCreator extends BaseAbstractCreator implements CreatorInt
      *
      * @param $data
      *
-     * @return \Illuminate\Support\Collection
+     * @return mixed
      */
     protected function map($data)
     {

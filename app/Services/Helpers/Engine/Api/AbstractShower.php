@@ -3,16 +3,18 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api;
 
 
-use Betalabs\LaravelHelper\Services\Engine\AbstractUpdater as BaseAbstractUpdater;
+use Betalabs\LaravelHelper\Services\Engine\AbstractShower as BaseAbstractShower;
 
-abstract class AbstractUpdater extends BaseAbstractUpdater implements UpdaterInterface
+class AbstractShower extends BaseAbstractShower
 {
     /**
+     * Retrieve a resource on engine
+     *
      * @return mixed
      */
-    public function update()
+    public function retrieve()
     {
-        return $this->map(parent::update());
+        return $this->map(parent::retrieve());
     }
 
     /**

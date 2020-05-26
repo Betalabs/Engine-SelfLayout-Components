@@ -15,10 +15,20 @@ abstract class AbstractIndexer extends BaseAbstractIndexer implements IndexerInt
      */
     public function index(): Collection
     {
-        $this->engineResourceIndexer->setOffset($this->offset);
+        $this->prepareOffset();
         $data = parent::index();
 
         return $this->map($data);
+    }
+
+    /**
+     * Prepare offset into resource if defined.
+     */
+    private function prepareOffset()
+    {
+        if (null !== $this->offset) {
+            $this->engineResourceIndexer->setOffset($this->offset);
+        }
     }
 
     /**
