@@ -14,7 +14,7 @@ class Parameter extends AbstractMapperEntity
     private $label;
     /** @var string */
     private $description;
-    /** @var \Illuminate\Support\Collection */
+    /** @var \Illuminate\Support\Collection|string[] */
     private $possibleValues;
 
     /**
