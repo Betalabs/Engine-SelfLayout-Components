@@ -3,7 +3,7 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models;
 
 
-class Component implements EngineModelInterface
+class Color implements EngineModelInterface
 {
     /** @var integer */
     protected $id;
@@ -27,9 +27,9 @@ class Component implements EngineModelInterface
     /**
      * @param int $id
      *
-     * @return Component
+     * @return Color
      */
-    public function setId(int $id): Component
+    public function setId(int $id): Color
     {
         $this->id = $id;
 
