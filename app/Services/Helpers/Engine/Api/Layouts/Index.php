@@ -5,20 +5,10 @@ namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layout
 
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\AbstractIndexer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
-use Illuminate\Support\Collection;
 
 class Index extends AbstractIndexer
 {
-    /**
-     * Retrieve a resource
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function index(): Collection
-    {
-        $this->setEndpoint('/api/layouts');
-        return parent::index();
-    }
+    protected $endpoint = '/api/layouts';
 
     /**
      * Map response data.

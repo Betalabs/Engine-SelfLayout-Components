@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engine-sdk>
+    <environment>
+        <env>Production</env>
+    </environment>
+    <client>
+        <id></id>
+        <secret></secret>
+    </client>
+    <cache>
+        <driver>redis</driver>
+        <host>redis.betalabs.net</host>
+        <port>6379</port>
+    </cache>
+</engine-sdk>

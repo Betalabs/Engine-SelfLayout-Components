@@ -3,31 +3,63 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Components;
 
 
+use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Helpers\Engine\Api\Components\LayoutIsNotDefinedException;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\AbstractIndexer;
-use Psr\Http\Message\ResponseInterface;
+use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Component as EngineComponent;
+use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout as EngineLayout;
+use Illuminate\Support\Collection;
 
 class Index extends AbstractIndexer
 {
-    /** @var Layout */
+    /** @var \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout */
     protected $layout;
 
+    /** @var string */
+    protected $endpoint = '/api/layouts/{layoutId}/components';
+
     /**
-     * Return Engine endpoint
+     * Retrieve a resource
      *
-     * @return string
+     * @return \Illuminate\Support\Collection
      */
-    protected function endpoint(): string
+    public function index(): Collection
     {
-        return '/api/layouts/'.$this->layout->getId().'/components';
+        if (null === $this->layout) {
+            throw new LayoutIsNotDefinedException(
+                'Layout is not defined in index components API service'
+            );
+        }
+
+        $this->engineResourceIndexer->setEndpointParameters([
+            'layoutId' => $this->layout->getId()
+        ]);
+
+        return parent::index();
     }
 
     /**
-     * Handle request response
+     * Map response data.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param $data
+     *
+     * @return \Illuminate\Support\Collection
      */
-    protected function handleResponse(ResponseInterface $response): void
+    protected function map($data)
     {
-        // Do nothing...
+        return parent::map($data)->map(function ($layout) {
+            return EngineComponent::fromApiResponse($layout);
+        });
+    }
+
+    /**
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout $layout
+     *
+     * @return \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Components\Index
+     */
+    public function setLayout(EngineLayout $layout): Index
+    {
+        $this->layout = $layout;
+
+        return $this;
     }
 }

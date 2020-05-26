@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        // \Betalabs\LaravelHelper\LaravelHelper::routes();
+        \Betalabs\LaravelHelper\LaravelHelper::routes();
     }
 
     /**
