@@ -4,6 +4,7 @@ namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Component
 
 
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\AbstractMapperEntity;
+use Illuminate\Support\Collection;
 
 class Component extends AbstractMapperEntity
 {
@@ -101,7 +102,7 @@ class Component extends AbstractMapperEntity
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getParameters(): \Illuminate\Support\Collection
+    public function getParameters(): Collection
     {
         return $this->parameters;
     }
@@ -111,7 +112,7 @@ class Component extends AbstractMapperEntity
      *
      * @return Component
      */
-    public function setParameters(\Illuminate\Support\Collection $parameters): Component
+    public function setParameters(Collection $parameters): Component
     {
         $this->parameters = $parameters;
 

@@ -64,9 +64,7 @@ class Availables extends AbstractMapper
             $this->componentsMapper->map($engineLayout, $layout);
             $this->colorsMapper->map($engineLayout, $layout);
             // TODO Upload assets to S3
-            // TODO Criar pacote helper que monta a URL do asset no s3 para
-            // disponibilizar no layout de forma a referenciar esse asset no
-            // codigo.
+            // TODO Criar pacote helper que monta a URL do asset no s3 para disponibilizar no layout de forma a referenciar esse asset no codigo.
         }
     }
 

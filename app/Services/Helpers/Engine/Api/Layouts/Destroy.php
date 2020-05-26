@@ -7,5 +7,5 @@ use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\AbstractDest
 
 class Destroy extends AbstractDestroyer
 {
-
+    protected $endpoint = '/api/layouts';
 }
