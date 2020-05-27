@@ -3,7 +3,7 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api;
 
 
-use Betalabs\Engine\Request;
+use Betalabs\Engine\Request as EngineRequestFactory;
 use Betalabs\LaravelHelper\Services\Engine\ReplacesEndpointParameters;
 use Illuminate\Http\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -29,6 +29,19 @@ abstract class AbstractDestroyer
      */
     protected $exceptionMessage = 'Resource could not be destroyed.';
 
+    /** @var \Betalabs\Engine\Request */
+    private $engineRequestFactory;
+
+    /**
+     * AbstractDestroyer constructor.
+     *
+     * @param \Betalabs\Engine\Request $engineRequestFactory
+     */
+    public function __construct(EngineRequestFactory $engineRequestFactory)
+    {
+        $this->engineRequestFactory = $engineRequestFactory;
+    }
+
     /**
      * Perform resource destroy.
      *
@@ -36,12 +49,12 @@ abstract class AbstractDestroyer
      */
     public function destroy()
     {
-        $request = Request::delete();
+        $request = $this->engineRequestFactory->delete();
 
         $this->replaceEndpointParameters();
         $recordId = $this->recordId ?? "";
 
-        $request->send("{$this->endpoint}/{$recordId}");
+        $request->send("{$this->endpoint}/{$recordId}", []);
         $this->errors($request->getResponse());
 
         return null;

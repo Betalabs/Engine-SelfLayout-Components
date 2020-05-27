@@ -25,6 +25,18 @@ class MapperTest extends TestCase
         $engineApiComponentIndexer->shouldReceive('setLayout')
             ->times(3)
             ->andReturnSelf();
+        $engineApiComponentIndexer->shouldReceive('setQuery')
+            ->once()
+            ->with([
+                'name' => 'Name 1'
+            ])
+            ->andReturnSelf();
+        $engineApiComponentIndexer->shouldReceive('setQuery')
+            ->once()
+            ->with([
+                'name' => 'Name 2'
+            ])
+            ->andReturnSelf();
         $engineApiComponentIndexer->shouldReceive('index')
             ->once()
             ->andReturn(collect());
@@ -34,11 +46,65 @@ class MapperTest extends TestCase
         $engineApiComponentCreator->shouldReceive('setLayout')
             ->twice()
             ->andReturnSelf();
+        $engineApiComponentCreator->shouldReceive('setData')
+            ->once()
+            ->with([
+                'name' => 'Name 1',
+                'description' => 'Desc 1',
+                'path' => 'path/to/component/1',
+                'main_file' => 'main-file1.blade.php',
+                'parameters' => [
+                    [
+                        'name' => 'param1',
+                        'label' => 'Param 1',
+                        'description' => 'Test param 1',
+                        'possible_values' => ['test']
+                    ]
+                ]
+            ])
+            ->andReturnSelf();
+        $engineApiComponentCreator->shouldReceive('setData')
+            ->once()
+            ->with([
+                'name' => 'Name 2',
+                'description' => 'Desc 2',
+                'path' => 'path/to/component/2',
+                'main_file' => 'main-file2.blade.php',
+                'parameters' => []
+            ])
+            ->andReturnSelf();
 
         $engineApiComponentUpdater = \Mockery::mock(EngineApiUpdateComponents::class);
         $engineApiComponentUpdater->makePartial();
         $engineApiComponentUpdater->shouldReceive('setLayout')
             ->twice()
+            ->andReturnSelf();
+        $engineApiComponentUpdater->shouldReceive('setData')
+            ->once()
+            ->with([
+                'name' => 'Name 1',
+                'description' => 'Desc 1',
+                'path' => 'path/to/component/1',
+                'main_file' => 'main-file1.blade.php',
+                'parameters' => [
+                    [
+                        'name' => 'param1',
+                        'label' => 'Param 1',
+                        'description' => 'Test param 1',
+                        'possible_values' => ['test']
+                    ]
+                ]
+            ])
+            ->andReturnSelf();
+        $engineApiComponentUpdater->shouldReceive('setData')
+            ->once()
+            ->with([
+                'name' => 'Name 2',
+                'description' => 'Desc 2',
+                'path' => 'path/to/component/2',
+                'main_file' => 'main-file2.blade.php',
+                'parameters' => []
+            ])
             ->andReturnSelf();
 
         $engineApiComponentDestroyer = \Mockery::mock(EngineApiDestroyComponents::class);
@@ -71,26 +137,26 @@ class MapperTest extends TestCase
             ->andReturn($engineComponent2);
 
         $param1 = \Mockery::mock(Parameter::class);
-        $param1->shouldReceive('getName')->andReturn('test');
-        $param1->shouldReceive('getLabel')->andReturn('test');
-        $param1->shouldReceive('getDescription')->andReturn('test');
+        $param1->shouldReceive('getName')->andReturn('param1');
+        $param1->shouldReceive('getLabel')->andReturn('Param 1');
+        $param1->shouldReceive('getDescription')->andReturn('Test param 1');
         $param1->shouldReceive('getPossibleValues')->andReturn(collect([
             'test'
         ]));
 
         $component1 = \Mockery::mock(Component::class);
-        $component1->shouldReceive('getName')->andReturn('test');
-        $component1->shouldReceive('getDescription')->andReturn('test');
-        $component1->shouldReceive('getPath')->andReturn('test');
-        $component1->shouldReceive('getMainFile')->andReturn('test');
+        $component1->shouldReceive('getName')->andReturn('Name 1');
+        $component1->shouldReceive('getDescription')->andReturn('Desc 1');
+        $component1->shouldReceive('getPath')->andReturn('path/to/component/1');
+        $component1->shouldReceive('getMainFile')->andReturn('main-file1.blade.php');
         $component1->shouldReceive('getParameters')->andReturn(collect([
             $param1
         ]));
         $component2 = \Mockery::mock(Component::class);
-        $component2->shouldReceive('getName')->andReturn('test');
-        $component2->shouldReceive('getDescription')->andReturn('test');
-        $component2->shouldReceive('getPath')->andReturn('test');
-        $component2->shouldReceive('getMainFile')->andReturn('test');
+        $component2->shouldReceive('getName')->andReturn('Name 2');
+        $component2->shouldReceive('getDescription')->andReturn('Desc 2');
+        $component2->shouldReceive('getPath')->andReturn('path/to/component/2');
+        $component2->shouldReceive('getMainFile')->andReturn('main-file2.blade.php');
         $component2->shouldReceive('getParameters')->andReturn(collect());
 
         $internalLayout = \Mockery::mock(Layout::class);
@@ -119,6 +185,25 @@ class MapperTest extends TestCase
         $engineApiComponentIndexer->makePartial();
         $engineApiComponentIndexer->shouldReceive('setLayout')
             ->times(3)
+            ->andReturnSelf();
+        $engineApiComponentIndexer->shouldReceive('setQuery')
+            ->once()
+            ->with([
+                'name' => 'Name 1'
+            ])
+            ->andReturnSelf();
+        $engineApiComponentIndexer->shouldReceive('setQuery')
+            ->once()
+            ->with([
+                'name' => 'Name 2'
+            ])
+            ->andReturnSelf();
+        $engineApiComponentIndexer->shouldReceive('setQuery')
+            ->once()
+            ->with([
+                'id-not-in' => '1,2',
+                '_fields' => 'id'
+            ])
             ->andReturnSelf();
         $engineApiComponentIndexer->shouldReceive('index')
             ->once()
@@ -182,7 +267,7 @@ class MapperTest extends TestCase
         ]));
 
         $component1 = \Mockery::mock(Component::class);
-        $component1->shouldReceive('getName')->andReturn('test');
+        $component1->shouldReceive('getName')->andReturn('Name 1');
         $component1->shouldReceive('getDescription')->andReturn('test');
         $component1->shouldReceive('getPath')->andReturn('test');
         $component1->shouldReceive('getMainFile')->andReturn('test');
@@ -190,7 +275,7 @@ class MapperTest extends TestCase
             $param1
         ]));
         $component2 = \Mockery::mock(Component::class);
-        $component2->shouldReceive('getName')->andReturn('test');
+        $component2->shouldReceive('getName')->andReturn('Name 2');
         $component2->shouldReceive('getDescription')->andReturn('test');
         $component2->shouldReceive('getPath')->andReturn('test');
         $component2->shouldReceive('getMainFile')->andReturn('test');

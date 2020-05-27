@@ -12,7 +12,7 @@ use Betalabs\LaravelHelper\Services\Engine\ResourceShower;
 
 class FindTest extends TestCase
 {
-    public function testIndexShouldIncludeLayoutIdIntoRouteParameters()
+    public function testRetrieveShouldIncludeLayoutIdIntoRouteParameters()
     {
         $layout = \Mockery::mock(Layout::class);
         $layout->shouldReceive('getId')->andReturn(123);
@@ -32,7 +32,7 @@ class FindTest extends TestCase
         $finder->setLayout($layout)->setRecordId(123)->retrieve();
     }
 
-    public function testIndexWithoutSetLayoutShouldThrowException()
+    public function testRetrieveWithoutSetLayoutShouldThrowException()
     {
         $engineResourceShower = \Mockery::mock(ResourceShower::class);
         $engineResourceShower->makePartial();
@@ -43,7 +43,7 @@ class FindTest extends TestCase
         $finder->setRecordId(123)->retrieve();
     }
 
-    public function testFindShouldReturnAnEngineModelInstance()
+    public function testRetrieveShouldReturnAnEngineModelInstance()
     {
         $layout = \Mockery::mock(Layout::class);
         $layout->shouldReceive('getId')->andReturn(123);

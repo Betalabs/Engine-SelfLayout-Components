@@ -82,7 +82,7 @@ class Mapper
         EngineLayout $engineLayout,
         Collection $components
     ) {
-        $componentsToDestroy = $this->retrieveComponentsToDestroy(
+        $componentsToDestroy = $this->retrieveDeprecatedComponents(
             $engineLayout,
             $components
         );
@@ -107,13 +107,17 @@ class Mapper
      *
      * @return \Illuminate\Support\Collection
      */
-    private function retrieveComponentsToDestroy(
+    private function retrieveDeprecatedComponents(
         EngineLayout $engineLayout,
         Collection $components
     ): Collection {
         $componentsIds = $components->map(function (EngineComponent $component) {
             return $component->getId();
         });
+
+        if ($componentsIds->isEmpty()) {
+            return collect();
+        }
 
         return $this->engineApiComponentIndexer
             ->setLayout($engineLayout)
