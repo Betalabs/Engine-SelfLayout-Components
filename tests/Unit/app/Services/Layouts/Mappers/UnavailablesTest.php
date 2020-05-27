@@ -44,6 +44,12 @@ class UnavailablesTest extends TestCase
             ->twice()
             ->andReturn(collect([$engineLayout]));
         $engineApiLayoutDestroyer = \Mockery::mock(EngineApiLayoutDestroyer::class);
+        $engineApiLayoutDestroyer->shouldReceive('setRecordId')
+            ->once()
+            ->with(1);
+        $engineApiLayoutDestroyer->shouldReceive('setRecordId')
+            ->once()
+            ->with(2);
         $engineApiLayoutDestroyer->shouldReceive('destroy')->twice();
 
         $availables = new Unavailables(

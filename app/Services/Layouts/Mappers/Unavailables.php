@@ -63,7 +63,21 @@ class Unavailables extends AbstractMapper
             );
         }
 
-        $this->engineApiLayoutDestroyer->destroy($engineLayout->getId());
+        $this->engineApiLayoutDestroyer
+            ->setRecordId($engineLayout->getId())
+            ->destroy();
+
+        $this->deleteAssets($layout);
+    }
+
+    /**
+     * Remove assets from S3.
+     *
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout $layout
+     */
+    private function deleteAssets(Layout $layout)
+    {
+        // TODO
     }
 
     /**
