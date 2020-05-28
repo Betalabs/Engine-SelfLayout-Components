@@ -1,4 +1,6 @@
 <?php
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Assets\Mapper as AssetsMapper;
+
 return [
 
     /*
@@ -20,6 +22,30 @@ return [
     'unavailable' => [
         // 'foo' => 'vendor/foo',
         // 'bar' => 'vendor/bar'
+    ],
+
+    /*
+     | Define all validations to assert each asset file to be ready to upload.
+     */
+    'assets-validations' => [
+        AssetsMapper::IMAGES => [
+
+        ],
+        AssetsMapper::IMAGES => [
+
+        ],
+        AssetsMapper::IMAGES => [
+
+        ],
+        AssetsMapper::IMAGES => [
+
+        ],
+        AssetsMapper::IMAGES => [
+
+        ],
+        AssetsMapper::IMAGES => [
+
+        ],
     ]
 
 ];

@@ -21,8 +21,11 @@ abstract class AbstractMapper
     {
         $configurations = $this->parseLayoutsConfigurations();
         $layouts = collect();
-        foreach ($configurations as $configuration) {
-            $layouts->push(Layout::fromArray($configuration));
+        foreach ($configurations as $packageName => $configuration) {
+            $layouts->put(
+                $packageName,
+                Layout::fromArray($configuration)
+            );
         }
 
         return $layouts;
@@ -39,7 +42,7 @@ abstract class AbstractMapper
         foreach ($this->retrieveLayouts() as $layout => $packageName) {
             try {
                 $configuration = $this->loadConfigurationFileContent($packageName);
-                $configurations->put($layout, $configuration);
+                $configurations->put($packageName, $configuration);
             } catch (PackageConfigurationsFileDoesNotExistsException $e) {
                 Log::info($e->getMessage());
             } catch (PackageConfigurationsJsonInvalidContentException $e) {
@@ -59,14 +62,14 @@ abstract class AbstractMapper
      */
     private function loadConfigurationFileContent(string $packageName): array
     {
-        $configurationsFilePath = base_path("vendor/{$packageName}/configuration.json");
+        $configurationsFilePath = base_path("vendor/{$packageName}/configurations.json");
         if (!File::exists($configurationsFilePath)) {
             throw new PackageConfigurationsFileDoesNotExistsException(
                 "Package {$packageName} configurations.json file does not exists in `{$configurationsFilePath}`"
             );
         }
 
-        $fileContent = File::get(base_path("vendor/{$packageName}/configuration.json"));
+        $fileContent = File::get(base_path("vendor/{$packageName}/configurations.json"));
         $decodedFileContent = json_decode($fileContent, true);
         if (null === $decodedFileContent && JSON_ERROR_NONE !== json_last_error()) {
             throw new PackageConfigurationsJsonInvalidContentException(

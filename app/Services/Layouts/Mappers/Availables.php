@@ -7,6 +7,7 @@ use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Actions\Upda
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Index as EngineApiLayoutIndexer;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Update as EngineApiLayoutUpdater;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Store as EngineApiLayoutCreator;
+use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Assets\Mapper as AssetsMapper;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors\Mapper as ColorsMapper;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components\Mapper as ComponentsMapper;
 use Illuminate\Support\Facades\Config;
@@ -25,12 +26,15 @@ class Availables extends AbstractMapper
     private $engineApiLayoutUpdater;
     /** @var \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Store */
     private $engineApiLayoutCreator;
+    /** @var \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Assets\Mapper */
+    private $assetsMapper;
 
     /**
      * Availables constructor.
      *
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Components\Mapper         $componentsMapper
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Colors\Mapper             $colorsMapper
+     * @param \Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Assets\Mapper             $assetsMapper
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Actions\UpdateOrCreate $updateOrCreate
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Index          $engineApiLayoutIndexer
      * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Layouts\Update         $engineApiLayoutUpdater
@@ -39,6 +43,7 @@ class Availables extends AbstractMapper
     public function __construct(
         ComponentsMapper $componentsMapper,
         ColorsMapper $colorsMapper,
+        AssetsMapper $assetsMapper,
         UpdateOrCreate $updateOrCreate,
         EngineApiLayoutIndexer $engineApiLayoutIndexer,
         EngineApiLayoutUpdater $engineApiLayoutUpdater,
@@ -46,6 +51,7 @@ class Availables extends AbstractMapper
     ) {
         $this->componentsMapper = $componentsMapper;
         $this->colorsMapper = $colorsMapper;
+        $this->assetsMapper = $assetsMapper;
         $this->updateOrCreate = $updateOrCreate;
         $this->engineApiLayoutIndexer = $engineApiLayoutIndexer;
         $this->engineApiLayoutUpdater = $engineApiLayoutUpdater;
@@ -58,12 +64,12 @@ class Availables extends AbstractMapper
     public function map()
     {
         $layouts = $this->parseLayouts();
-        foreach ($layouts as $layout) {
+        foreach ($layouts as $packageName => $layout) {
             $engineLayout = $this->createLayout($layout);
 
             $this->componentsMapper->map($engineLayout, $layout);
             $this->colorsMapper->map($engineLayout, $layout);
-            // TODO Upload assets to S3
+            $this->assetsMapper->map($packageName, $layout);
             // TODO Criar pacote helper que monta a URL do asset no s3 para disponibilizar no layout de forma a referenciar esse asset no codigo.
         }
     }
