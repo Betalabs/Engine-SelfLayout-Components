@@ -3,8 +3,10 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Assets;
 
 
+use Betalabs\EngineSelfLayoutComponents\Services\Helpers\PackageVersions\Accessor as PackageVersionsAccessor;
 use Betalabs\EngineSelfLayoutComponents\Services\Layouts\Mappers\Layout;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -24,8 +26,6 @@ class Mapper
     private $packageName;
     /** @var string */
     private $packagePath;
-    /** @var string */
-    private $packageVersion;
 
     /**
      * Perform uploads of images, scripts, styles, fonts and videos from
@@ -38,7 +38,6 @@ class Mapper
     {
         $this->packageName = $packageName;
         $this->packagePath = base_path("vendor/{$this->packageName}");
-        $this->packageVersion = \PackageVersions\Versions::getVersion($this->packageName);
 
         $this->mapFiles($internalLayout->getImagesPath(), self::IMAGES);
         $this->mapFiles($internalLayout->getScriptsPath(), self::SCRIPTS);
@@ -56,22 +55,21 @@ class Mapper
     private function mapFiles(string $path, string $validationPattern)
     {
         $files = $this->retrieveFilesFromVendor($path, $validationPattern);
-        $this->uploadFiles($files, $path);
+        $this->uploadFiles($files);
     }
 
     /**
      * Perform file uploads to disk from an array of files.
      *
      * @param array  $files
-     * @param string $path
      */
-    private function uploadFiles(array $files, string $path)
+    private function uploadFiles(array $files)
     {
         foreach ($files as $file) {
-            $contents = File::get("{$this->packagePath}/{$path}/{$file}");
-            $storagePath = "/{$this->packageName}/{$this->packageVersion}/{$file}";
+            $absoluteFilePath = base_path("vendor/{$file}");
+            $contents = File::get($absoluteFilePath);
 
-            Storage::put($storagePath, $contents);
+            Storage::put($file, $contents);
         }
     }
 
@@ -87,7 +85,7 @@ class Mapper
         string $path,
         string $validationPattern
     ) {
-        $files = Storage::disk('local')->files("{$this->packagePath}/{$path}");
+        $files = Storage::disk('vendor')->files("{$this->packageName}/{$path}");
         return $this->onlyValid($validationPattern, $files);
     }
 
@@ -102,18 +100,41 @@ class Mapper
     private function onlyValid(string $validationPattern, array $files)
     {
         $validations = config("layouts.assets-validations.{$validationPattern}");
-        return array_filter($files, function ($file) use ($validations) {
-            $valid = true;
 
-            foreach ($validations as $validation => $requirementValue) {
-                $validationMethod = "validate".Str::studly($validation);
-                if (false === $this->{$validationMethod}($file, $requirementValue)) {
-                    $valid = false;
-                }
-            }
-            
-            return $valid;
+        return array_filter($files, function ($file) use ($validations) {
+            return $this->isValid($file, $validations);
         });
+    }
+
+    /**
+     * Call validation methods for a single file to assert if is valid.
+     *
+     * @param string $file
+     * @param array  $validations
+     *
+     * @return bool
+     */
+    private function isValid(string $file, array $validations)
+    {
+        $absoluteFilePath = base_path("vendor/{$file}");
+        $valid = true;
+
+        foreach ($validations as $validation => $requirementValue) {
+            $validationMethod = "validate".Str::studly($validation);
+            $validationResult = $this->{$validationMethod}(
+                $absoluteFilePath,
+                $requirementValue
+            );
+
+            if (false === $validationResult) {
+                $valid = false;
+                Log::info(
+                    'File `'.$absoluteFilePath.'` not passing in validation `'.$validation.'`'
+                );
+            }
+        }
+
+        return $valid;
     }
 
     /**
