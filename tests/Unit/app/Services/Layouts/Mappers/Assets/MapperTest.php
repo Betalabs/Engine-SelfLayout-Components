@@ -682,26 +682,571 @@ class MapperTest extends TestCase
 
     public function testMapShouldNotUploadStyleByInvalidExtension()
     {
-        // TODO
+        $layout = \Mockery::mock(Layout::class);
+        $layout->shouldReceive('getImagesPath')
+            ->once()
+            ->andReturn('path/to/images');
+        $layout->shouldReceive('getScriptsPath')
+            ->once()
+            ->andReturn('path/to/scripts');
+        $layout->shouldReceive('getStylesPath')
+            ->once()
+            ->andReturn('path/to/styles');
+        $layout->shouldReceive('getFontsPath')
+            ->once()
+            ->andReturn('path/to/fonts');
+        $layout->shouldReceive('getVideosPath')
+            ->once()
+            ->andReturn('path/to/videos');
+
+        $vendorFileSystem = \Mockery::mock(Filesystem::class);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/images")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/scripts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/styles")
+            ->andReturn([
+                'package-vendor/package1/path/to/styles/style1.css',
+                'package-vendor/package1/path/to/styles/style2.css'
+            ]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/fonts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/videos")
+            ->andReturn([]);
+
+        // Mocking styles files size consult response
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style1.css'))
+            ->andReturn(123);
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style2.css'))
+            ->andReturn(123);
+
+        // Mocking file extension consult response
+        File::shouldReceive('extension')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style1.css'))
+            ->andReturn('xss');
+        File::shouldReceive('extension')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style2.css'))
+            ->andReturn('yss');
+
+        // Mocking styles files get contents responses
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style1.css'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style2.css'));
+
+        Storage::shouldReceive('disk')
+            ->with('vendor')
+            ->times(5)
+            ->andReturn($vendorFileSystem);
+
+        // Mocking styles files uploads
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/styles/style1.css',
+                'hello'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/styles/style2.css',
+                'world'
+            );
+
+        $mapper = new Mapper();
+        $mapper->map('package-vendor/package1', $layout);
     }
 
     public function testMapShouldNotUploadStyleByInvalidSize()
     {
-        // TODO
+        $layout = \Mockery::mock(Layout::class);
+        $layout->shouldReceive('getImagesPath')
+            ->once()
+            ->andReturn('path/to/images');
+        $layout->shouldReceive('getScriptsPath')
+            ->once()
+            ->andReturn('path/to/scripts');
+        $layout->shouldReceive('getStylesPath')
+            ->once()
+            ->andReturn('path/to/styles');
+        $layout->shouldReceive('getFontsPath')
+            ->once()
+            ->andReturn('path/to/fonts');
+        $layout->shouldReceive('getVideosPath')
+            ->once()
+            ->andReturn('path/to/videos');
+
+        $vendorFileSystem = \Mockery::mock(Filesystem::class);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/images")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/scripts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/styles")
+            ->andReturn([
+                'package-vendor/package1/path/to/styles/style1.css',
+                'package-vendor/package1/path/to/styles/style2.css'
+            ]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/fonts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/videos")
+            ->andReturn([]);
+
+        // Mocking styles files size consult response
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style1.css'))
+            ->andReturn(
+                1 + config('layouts.assets-validations.'.Mapper::STYLES.'.'.Mapper::VALID_SIZE)
+            );
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style2.css'))
+            ->andReturn(
+                1 + config('layouts.assets-validations.'.Mapper::STYLES.'.'.Mapper::VALID_SIZE)
+            );
+
+        // Mocking file extension consult response
+        File::shouldReceive('extension')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style1.css'))
+            ->andReturn('css');
+        File::shouldReceive('extension')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style2.css'))
+            ->andReturn('css');
+
+        // Mocking styles files get contents responses
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style1.css'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/styles/style2.css'));
+
+        Storage::shouldReceive('disk')
+            ->with('vendor')
+            ->times(5)
+            ->andReturn($vendorFileSystem);
+
+        // Mocking styles files uploads
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/styles/style1.css',
+                'hello'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/styles/style2.css',
+                'world'
+            );
+
+        $mapper = new Mapper();
+        $mapper->map('package-vendor/package1', $layout);
     }
 
     public function testMapShouldNotUploadFontByInvalidMimeType()
     {
-        // TODO
+        $layout = \Mockery::mock(Layout::class);
+        $layout->shouldReceive('getImagesPath')
+            ->once()
+            ->andReturn('path/to/images');
+        $layout->shouldReceive('getScriptsPath')
+            ->once()
+            ->andReturn('path/to/scripts');
+        $layout->shouldReceive('getStylesPath')
+            ->once()
+            ->andReturn('path/to/styles');
+        $layout->shouldReceive('getFontsPath')
+            ->once()
+            ->andReturn('path/to/fonts');
+        $layout->shouldReceive('getVideosPath')
+            ->once()
+            ->andReturn('path/to/videos');
+
+        $vendorFileSystem = \Mockery::mock(Filesystem::class);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/images")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/scripts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/styles")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/fonts")
+            ->andReturn([
+                'package-vendor/package1/path/to/fonts/font1.woff',
+                'package-vendor/package1/path/to/fonts/font2.woff2',
+                'package-vendor/package1/path/to/fonts/font3.ttf',
+                'package-vendor/package1/path/to/fonts/font4.otf'
+            ]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/videos")
+            ->andReturn([]);
+
+        // Mocking fonts files mimeType consult response
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font1.woff'))
+            ->andReturn('a');
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font2.woff2'))
+            ->andReturn('b');
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font3.ttf'))
+            ->andReturn('c');
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font4.otf'))
+            ->andReturn('d');
+
+        // Mocking fonts files size consult response
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font1.woff'))
+            ->andReturn(123);
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font2.woff2'))
+            ->andReturn(123);
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font3.ttf'))
+            ->andReturn(123);
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font4.otf'))
+            ->andReturn(123);
+
+        // Mocking fonts files get contents responses
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font1.woff'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font2.woff2'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font3.ttf'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font4.otf'));
+
+        Storage::shouldReceive('disk')
+            ->with('vendor')
+            ->times(5)
+            ->andReturn($vendorFileSystem);
+
+        // Mocking fonts files uploads
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font1.woff',
+                'a'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font2.woff2',
+                'b'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font3.ttf',
+                'c'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font4.otf',
+                'd'
+            );
+
+        $mapper = new Mapper();
+        $mapper->map('package-vendor/package1', $layout);
     }
 
     public function testMapShouldNotUploadFontByInvalidSize()
     {
-        // TODO
+        $layout = \Mockery::mock(Layout::class);
+        $layout->shouldReceive('getImagesPath')
+            ->once()
+            ->andReturn('path/to/images');
+        $layout->shouldReceive('getScriptsPath')
+            ->once()
+            ->andReturn('path/to/scripts');
+        $layout->shouldReceive('getStylesPath')
+            ->once()
+            ->andReturn('path/to/styles');
+        $layout->shouldReceive('getFontsPath')
+            ->once()
+            ->andReturn('path/to/fonts');
+        $layout->shouldReceive('getVideosPath')
+            ->once()
+            ->andReturn('path/to/videos');
+
+        $vendorFileSystem = \Mockery::mock(Filesystem::class);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/images")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/scripts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/styles")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/fonts")
+            ->andReturn([
+                'package-vendor/package1/path/to/fonts/font1.woff',
+                'package-vendor/package1/path/to/fonts/font2.woff2',
+                'package-vendor/package1/path/to/fonts/font3.ttf',
+                'package-vendor/package1/path/to/fonts/font4.otf'
+            ]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/videos")
+            ->andReturn([]);
+
+        // Mocking fonts files mimeType consult response
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font1.woff'))
+            ->andReturn(FontsMimeTypes::APPLICATION_FONT_WOFF);
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font2.woff2'))
+            ->andReturn(FontsMimeTypes::APPLICATION_FONT_WOFF2);
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font3.ttf'))
+            ->andReturn(FontsMimeTypes::FONT_TTF);
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font4.otf'))
+            ->andReturn(FontsMimeTypes::FONT_OTF);
+
+        // Mocking fonts files size consult response
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font1.woff'))
+            ->andReturn(
+                1 + config('layouts.assets-validations.'.Mapper::FONTS.'.'.Mapper::VALID_SIZE)
+            );
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font2.woff2'))
+            ->andReturn(
+                1 + config('layouts.assets-validations.'.Mapper::FONTS.'.'.Mapper::VALID_SIZE)
+            );
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font3.ttf'))
+            ->andReturn(
+                1 + config('layouts.assets-validations.'.Mapper::FONTS.'.'.Mapper::VALID_SIZE)
+            );
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font4.otf'))
+            ->andReturn(
+                1 + config('layouts.assets-validations.'.Mapper::FONTS.'.'.Mapper::VALID_SIZE)
+            );
+
+        // Mocking fonts files get contents responses
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font1.woff'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font2.woff2'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font3.ttf'));
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/fonts/font4.otf'));
+
+        Storage::shouldReceive('disk')
+            ->with('vendor')
+            ->times(5)
+            ->andReturn($vendorFileSystem);
+
+        // Mocking fonts files uploads
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font1.woff',
+                'a'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font2.woff2',
+                'b'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font3.ttf',
+                'c'
+            );
+        Storage::shouldReceive('put')
+            ->never()
+            ->with(
+                'package-vendor/package1/path/to/fonts/font4.otf',
+                'd'
+            );
+
+        $mapper = new Mapper();
+        $mapper->map('package-vendor/package1', $layout);
     }
 
     public function testMapShouldNotUploadAnyVideo()
     {
-        // TODO
+        $layout = \Mockery::mock(Layout::class);
+        $layout->shouldReceive('getImagesPath')
+            ->once()
+            ->andReturn('path/to/images');
+        $layout->shouldReceive('getScriptsPath')
+            ->once()
+            ->andReturn('path/to/scripts');
+        $layout->shouldReceive('getStylesPath')
+            ->once()
+            ->andReturn('path/to/styles');
+        $layout->shouldReceive('getFontsPath')
+            ->once()
+            ->andReturn('path/to/fonts');
+        $layout->shouldReceive('getVideosPath')
+            ->once()
+            ->andReturn('path/to/videos');
+
+        $vendorFileSystem = \Mockery::mock(Filesystem::class);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/images")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/scripts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/styles")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/fonts")
+            ->andReturn([]);
+        $vendorFileSystem->shouldReceive('files')
+            ->once()
+            ->with("package-vendor/package1/path/to/videos")
+            ->andReturn([
+                'package-vendor/package1/path/to/videos/video1.mp4',
+                'package-vendor/package1/path/to/videos/video2.mp4',
+                'package-vendor/package1/path/to/videos/video3.mp4'
+            ]);
+
+        // Mocking videos files mimeType consult response
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video1.mp4'))
+            ->andReturn('video/mp4');
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video2.mp4'))
+            ->andReturn('video/mp4');
+        File::shouldReceive('mimeType')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video3.mp4'))
+            ->andReturn('video/mp4');
+
+        // Mocking videos files size consult response
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video1.mp4'))
+            ->andReturn(123);
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video2.mp4'))
+            ->andReturn(123);
+        File::shouldReceive('size')
+            ->once()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video3.mp4'))
+            ->andReturn(123);
+
+        // Mocking videos files get contents responses
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video1.mp4'))
+            ->andReturn('a');
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video2.mp4'))
+            ->andReturn('b');
+        File::shouldReceive('get')
+            ->never()
+            ->with(base_path('vendor/package-vendor/package1/path/to/videos/video3.mp4'))
+            ->andReturn('c');
+
+        Storage::shouldReceive('disk')
+            ->with('vendor')
+            ->times(5)
+            ->andReturn($vendorFileSystem);
+
+        Storage::shouldReceive('put')
+            ->never()
+            ->withSomeOfArgs(['package-vendor/package1/path/to/videos/video1.mp4']);
+        Storage::shouldReceive('put')
+            ->never()
+            ->withSomeOfArgs(['package-vendor/package1/path/to/videos/video2.mp4']);
+        Storage::shouldReceive('put')
+            ->never()
+            ->withSomeOfArgs(['package-vendor/package1/path/to/videos/video3.mp4']);
+
+        $mapper = new Mapper();
+        $mapper->map('package-vendor/package1', $layout);
     }
 }
