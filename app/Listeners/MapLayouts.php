@@ -21,6 +21,11 @@ class MapLayouts extends AbstractEngineIntegratedListener
         $this->layoutsMapper = $layoutsMapper;
     }
 
+    /**
+     * Authenticate and map layouts packages to Engine API.
+     *
+     * @param \Betalabs\LaravelHelper\Events\GenesisCompleted $event
+     */
     public function handle(GenesisCompleted $event)
     {
         $this->authenticate($event->tenant);
