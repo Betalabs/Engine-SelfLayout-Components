@@ -18,8 +18,8 @@ class UnavailablesTest extends TestCase
     {
         Config::shouldReceive('get')->with('layouts.unavailable')->once()
             ->andReturn([
-                'test' => 'path/to/package',
-                'foo' => 'bar/baz'
+                'test' => 'vendor/package1',
+                'foo' => 'vendor/package2'
             ]);
 
         $json = '{"name": "Test Layout", "alias": "test-layout", "paths":{"views": "src/views", "images": "src/assets/images", "scripts": "src/assets/scripts", "styles": "src/assets/styles", "fonts": "src/assets/fonts", "videos": "src/assets/videos"}, "main_file": "main.blade.php", "colors": [{"identification": "pink", "label": "Pink", "default": true},{"identification": "blue", "label": "Blue", "default": false}], "components": [{"name": "Component 1", "description": "First component", "path": "component1", "main_file": "main.blade.php", "parameters": []}, {"name": "Component 2", "description": "Second component", "path": "component2", "main_file": "main.blade.php", "parameters": []}]}';
@@ -44,6 +44,14 @@ class UnavailablesTest extends TestCase
             ->twice()
             ->andReturn(collect([$engineLayout]));
         $engineApiLayoutDestroyer = \Mockery::mock(EngineApiLayoutDestroyer::class);
+        $engineApiLayoutDestroyer->shouldReceive('setRecordId')
+            ->once()
+            ->with(1)
+            ->andReturnSelf();
+        $engineApiLayoutDestroyer->shouldReceive('setRecordId')
+            ->once()
+            ->with(2)
+            ->andReturnSelf();
         $engineApiLayoutDestroyer->shouldReceive('destroy')->twice();
 
         $availables = new Unavailables(
@@ -57,8 +65,8 @@ class UnavailablesTest extends TestCase
     {
         Config::shouldReceive('get')->with('layouts.unavailable')->once()
             ->andReturn([
-                'test' => 'path/to/package',
-                'already-destroyed' => 'bar/baz'
+                'test' => 'vendor/package1',
+                'already-destroyed' => 'vendor/package2'
             ]);
         Config::makePartial();
 
@@ -84,6 +92,10 @@ class UnavailablesTest extends TestCase
         $this->app->instance(Layout::class, $internalLayout);
 
         $engineApiLayoutDestroyer = \Mockery::mock(EngineApiLayoutDestroyer::class);
+        $engineApiLayoutDestroyer->shouldReceive('setRecordId')
+            ->once()
+            ->with(2)
+            ->andReturnSelf();
         $engineApiLayoutDestroyer->shouldReceive('destroy')->once();
 
         $engineApiLayoutIndexer = \Mockery::mock(EngineApiLayoutIndexer::class);

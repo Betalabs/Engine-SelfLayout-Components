@@ -63,7 +63,9 @@ class Unavailables extends AbstractMapper
             );
         }
 
-        $this->engineApiLayoutDestroyer->destroy($engineLayout->getId());
+        $this->engineApiLayoutDestroyer
+            ->setRecordId($engineLayout->getId())
+            ->destroy();
     }
 
     /**
