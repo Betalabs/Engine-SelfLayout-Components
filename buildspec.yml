@@ -1,0 +1,89 @@
+version: 0.2
+
+env:
+  parameter-store:
+    APP_NAME: "production.selflayout_components.app_name"
+    APP_ENV: "production.selflayout_components.app_env"
+    APP_KEY: "production.selflayout_components.app_key"
+    APP_DEBUG: "production.selflayout_components.app_debug"
+    APP_URL: "production.selflayout_components.app_url"
+    LOG_CHANNEL: "production.selflayout_components.log_channel"
+    DB_CONNECTION: "production.selflayout_components.db_connection"
+    DB_HOST: "production.selflayout_components.db_host"
+    DB_PORT: "production.selflayout_components.db_port"
+    DB_DATABASE: "production.selflayout_components.db_database"
+    DB_USERNAME: "production.selflayout_components.db_username"
+    DB_PASSWORD: "production.selflayout_components.db_password"
+    CACHE_DRIVER: "production.selflayout_components.cache_driver"
+    QUEUE_CONNECTION: "production.selflayout_components.queue_connection"
+    SESSION_DRIVER: "production.selflayout_components.session_driver"
+    SESSION_LIFETIME: "production.selflayout_components.session_lifetime"
+    REDIS_HOST: "production.selflayout_components.redis_host"
+    REDIS_PASSWORD: "production.selflayout_components.redis_password"
+    REDIS_PORT: "production.selflayout_components.redis_port"
+    DISABLE_CLOUDWATCH_LOG: "production.selflayout_components.disable_cloudwatch_log"
+    AWS_KEY: "production.selflayout_components.aws_key"
+    AWS_SECRET: "production.selflayout_components.aws_secret"
+    AWS_REGION: "production.selflayout_components.aws_region"
+
+    SDK_ENVIRONMENT_ENV: "production.selflayout_components.sdk.environment_env"
+    SDK_CACHE_DRIVER: "production.selflayout_components.sdk.cache_driver"
+    SDK_CACHE_HOST: "production.selflayout_components.sdk.cache_host"
+    SDK_CACHE_PORT: "production.selflayout_components.sdk.cache_port"
+
+phases:
+  pre_build:
+    commands:
+      - echo Making env
+      - cp scripts/build/env .env
+      - sed -i "s@_APP_NAME@$APP_NAME@g" .env
+      - sed -i "s@_APP_ENV@$APP_ENV@g" .env
+      - sed -i "s@_APP_KEY@$APP_KEY@g" .env
+      - sed -i "s@_APP_DEBUG@$APP_DEBUG@g" .env
+      - sed -i "s@_APP_URL@$APP_URL@g" .env
+      - sed -i "s@_LOG_CHANNEL@$LOG_CHANNEL@g" .env
+      - sed -i "s@_DB_CONNECTION@$DB_CONNECTION@g" .env
+      - sed -i "s@_DB_HOST@$DB_HOST@g" .env
+      - sed -i "s@_DB_PORT@$DB_PORT@g" .env
+      - sed -i "s@_DB_DATABASE@$DB_DATABASE@g" .env
+      - sed -i "s@_DB_USERNAME@$DB_USERNAME@g" .env
+      - sed -i "s@_DB_PASSWORD@$DB_PASSWORD@g" .env
+      - sed -i "s@_CACHE_DRIVER@$CACHE_DRIVER@g" .env
+      - sed -i "s@_QUEUE_CONNECTION@$QUEUE_CONNECTION@g" .env
+      - sed -i "s@_SESSION_DRIVER@$SESSION_DRIVER@g" .env
+      - sed -i "s@_SESSION_LIFETIME@$SESSION_LIFETIME@g" .env
+      - sed -i "s@_REDIS_HOST@$REDIS_HOST@g" .env
+      - sed -i "s@_REDIS_PASSWORD@$REDIS_PASSWORD@g" .env
+      - sed -i "s@_REDIS_PORT@$REDIS_PORT@g" .env
+      - sed -i "s@_FRENET_PARTNER_TOKEN@$FRENET_PARTNER_TOKEN@g" .env
+      - sed -i "s@_FRENET_URL@$FRENET_URL@g" .env
+      - sed -i "s@_DISABLE_CLOUDWATCH_LOG@$DISABLE_CLOUDWATCH_LOG@g" .env
+      - sed -i "s@_AWS_KEY@$AWS_KEY@g" .env
+      - sed -i "s@_AWS_SECRET@$AWS_SECRET@g" .env
+      - sed -i "s@_AWS_REGION@$AWS_REGION@g" .env
+      - cat .env
+      - echo Making engine-sdk
+      - cp scripts/build/engine-sdk.xml engine-sdk.xml
+      - sed -i "s@_SDK_ENVIRONMENT_ENV@$SDK_ENVIRONMENT_ENV@g" engine-sdk.xml
+      - sed -i "s@_SDK_CACHE_DRIVER@$SDK_CACHE_DRIVER@g" engine-sdk.xml
+      - sed -i "s@_SDK_CACHE_HOST@$SDK_CACHE_HOST@g" engine-sdk.xml
+      - sed -i "s@_SDK_CACHE_PORT@$SDK_CACHE_PORT@g" engine-sdk.xml
+      - cat engine-sdk.xml
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - TAG="$(case "$CODEBUILD_INITIATOR" in "codepipeline/"*) echo $CODEBUILD_RESOLVED_SOURCE_VERSION ;; *) echo $CODEBUILD_SOURCE_VERSION ;; esac)"
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build --no-cache -t production/selflayout-components:$TAG .
+      - docker tag production/selflayout-components:$TAG 124849665526.dkr.ecr.us-east-1.amazonaws.com/production/selflayout-components:$TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 124849665526.dkr.ecr.us-east-1.amazonaws.com/production/selflayout-components:$TAG
+      - printf '[{"name":"Production-SelfLayout-Components","imageUri":"%s"}]' 124849665526.dkr.ecr.us-east-1.amazonaws.com/production/selflayout-components:$TAG > image.json
+artifacts:
+  files:
+    - image.json

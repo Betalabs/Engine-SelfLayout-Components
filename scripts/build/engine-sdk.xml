@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engine-sdk>
+    <environment>
+        <env>_SDK_ENVIRONMENT_ENV</env>
+    </environment>
+    <client>
+        <id></id>
+        <secret></secret>
+    </client>
+    <cache>
+        <driver>_SDK_CACHE_DRIVER</driver>
+        <host>_SDK_CACHE_HOST</host>
+        <port>_SDK_CACHE_PORT</port>
+    </cache>
+</engine-sdk>
