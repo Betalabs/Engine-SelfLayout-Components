@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Betalabs\EngineSelfLayoutComponents\Http\Controllers;
 
 class HealthCheckController extends Controller
 {
