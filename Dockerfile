@@ -65,9 +65,9 @@ RUN chmod -Rf 777 ${BACKEND_PATH}/storage
 RUN chmod -Rf 777 ${BACKEND_PATH}/resources
 RUN chmod 600 ${BACKEND_PATH}/storage/oauth-*
 RUN chown www-data ${BACKEND_PATH}/storage/oauth-*
+RUN php ${BACKEND_PATH}/artisan config:cache
 RUN php ${BACKEND_PATH}/artisan app:deploy
 RUN php ${BACKEND_PATH}/artisan cache:clear
-RUN php ${BACKEND_PATH}/artisan route:clear
 
 ## Run!
 EXPOSE 80
