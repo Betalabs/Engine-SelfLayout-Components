@@ -11,9 +11,10 @@
     "keywords": [],
     "require": {
         "php": "^7.2",
+        "betalabs/engine-basic-theme": "dev-master",
         "betalabs/engine-laravel-helper": "^0.8.0",
         "betalabs/engine-phpsdk": "^0.6.2",
-        "betalabs/engine-basic-theme": "dev-master",
+        "diegohq/laravel-seeder": "^5.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",

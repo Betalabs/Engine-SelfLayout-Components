@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "398ae1646ab10de7b4ace89542d475bf",
+    "content-hash": "69da49058d836569083bad51c6b38675",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -291,6 +291,65 @@
                 "symmetric key cryptography"
             ],
             "time": "2018-07-24T23:27:56+00:00"
+        },
+        {
+            "name": "diegohq/laravel-seeder",
+            "version": "v5.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/diegohq/laravel-seeder.git",
+                "reference": "7e1e0a4d36a8e89e476985cc3906642fbef205f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/diegohq/laravel-seeder/zipball/7e1e0a4d36a8e89e476985cc3906642fbef205f1",
+                "reference": "7e1e0a4d36a8e89e476985cc3906642fbef205f1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "5.7.*|5.8.*|^6.0|^7.0",
+                "illuminate/database": "5.7.*|5.8.*|^6.0|^7.0",
+                "illuminate/filesystem": "5.7.*|5.8.*|^6.0|^7.0",
+                "illuminate/support": "5.7.*|5.8.*|^6.0|^7.0",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.1",
+                "orchestra/testbench": "^3.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Eighty8\\LaravelSeeder\\SeederServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Eighty8\\LaravelSeeder\\": "src/LaravelSeeder"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Versioned, environment-based Seeders in Laravel. Used while original does not update to Laravel 5.7",
+            "keywords": [
+                "data",
+                "database",
+                "environment",
+                "laravel",
+                "production",
+                "seed",
+                "seeder",
+                "seeding",
+                "staging",
+                "table",
+                "version"
+            ],
+            "time": "2020-06-25T20:04:04+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
