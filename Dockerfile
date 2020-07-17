@@ -29,7 +29,7 @@ RUN echo "America/Sao_Paulo" > /etc/timezone && \
     apt-get clean
 
 ## Git
-RUN apt-get install -y git
+RUN apt-get install -y git zip unzip
 
 ## NGINX
 RUN apt-get install -y nginx
@@ -42,7 +42,7 @@ COPY ./scripts/build/php/php.ini /etc/php/7.3/fpm/php.ini
 
 # Install libs
 RUN apt-get update -y && \
-    apt-get install -y php7.3-zip php7.3-mysql php7.3-gd pngquant gifsicle jpegoptim libicu-dev g++ php7.3-intl php7.3-xml
+    apt-get install -y php7.3-zip php7.3-mysql php7.3-gd pngquant gifsicle jpegoptim libicu-dev g++ php7.3-intl php7.3-xml php7.3-zip
 
 ## Supervisor
 RUN apt-get install -y supervisor
