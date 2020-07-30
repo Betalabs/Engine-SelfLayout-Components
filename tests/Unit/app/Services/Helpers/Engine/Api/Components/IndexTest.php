@@ -33,10 +33,10 @@ class IndexTest extends TestCase
                 ]
             ]));
 
-        $indexer = new Index($engineResourceIndexer);
-        $indexer->setLayout($layout)->index();
+        $indexer = new Index();
+        $indexer->setLayout($layout)->retrieve();
     }
-    
+
     public function testIndexWithoutSetLayoutShouldThrowException()
     {
         $engineResourceIndexer = \Mockery::mock(ResourceIndexer::class);
@@ -44,8 +44,8 @@ class IndexTest extends TestCase
         $engineResourceIndexer->shouldReceive('retrieve')->never();
 
         $this->expectException(LayoutIsNotDefinedException::class);
-        $indexer = new Index($engineResourceIndexer);
-        $indexer->index();
+        $indexer = new Index();
+        $indexer->retrieve();
     }
 
     public function testIndexShouldReturnACollectionOfEngineModelInstances()
@@ -66,8 +66,8 @@ class IndexTest extends TestCase
                 ]
             ]));
 
-        $indexer = new Index($engineResourceIndexer);
-        $result = $indexer->setLayout($layout)->index();
+        $indexer = new Index();
+        $result = $indexer->setLayout($layout)->retrieve();
 
         $this->assertCount(2, $result);
         $this->assertInstanceOf(Component::class, $result->first());
@@ -95,9 +95,9 @@ class IndexTest extends TestCase
                 ]
             ]));
 
-        $indexer = new Index($engineResourceIndexer);
+        $indexer = new Index();
 
-        $result = $indexer->setLayout($layout)->setOffset(10)->index();
+        $result = $indexer->setLayout($layout)->setOffset(10)->retrieve();
         $this->assertCount(2, $result);
     }
 }

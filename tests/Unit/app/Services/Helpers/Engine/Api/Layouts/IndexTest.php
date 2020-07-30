@@ -25,8 +25,8 @@ class IndexTest extends TestCase
                 ]
             ]));
 
-        $indexer = new Index($engineResourceIndexer);
-        $result = $indexer->index();
+        $indexer = new Index();
+        $result = $indexer->retrieve();
 
         $this->assertCount(2, $result);
         $this->assertInstanceOf(Layout::class, $result->first());
@@ -51,9 +51,9 @@ class IndexTest extends TestCase
                 ]
             ]));
 
-        $indexer = new Index($engineResourceIndexer);
+        $indexer = new Index();
 
-        $result = $indexer->setOffset(10)->index();
+        $result = $indexer->setOffset(10)->retrieve();
         $this->assertCount(2, $result);
     }
 }

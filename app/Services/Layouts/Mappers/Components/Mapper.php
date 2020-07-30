@@ -127,7 +127,7 @@ class Mapper
                 'id-not-in' => $componentsIds->implode(','),
                 '_fields' => 'id'
             ])
-            ->index();
+            ->retrieve();
     }
 
     /**

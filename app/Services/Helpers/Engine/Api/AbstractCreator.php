@@ -3,9 +3,9 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api;
 
 
-use Betalabs\LaravelHelper\Services\Engine\AbstractCreator as BaseAbstractCreator;
+use Betalabs\LaravelHelper\Services\Engine\ResourceCreator;
 
-abstract class AbstractCreator extends BaseAbstractCreator implements CreatorInterface
+abstract class AbstractCreator extends ResourceCreator
 {
     /**
      * Create resource on engine
