@@ -26,7 +26,7 @@ class UpdateTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $creator = new Update($engineResourceUpdater);
+        $creator = new Update();
         $creator->setLayout($layout)->setRecordId(1)->setData([])->update();
     }
 
@@ -38,7 +38,7 @@ class UpdateTest extends TestCase
 
         $this->expectException(LayoutIsNotDefinedException::class);
 
-        $updater = new Update($engineResourceUpdater);
+        $updater = new Update();
         $updater->setRecordId(1)->setData([])->update();
     }
 
@@ -53,7 +53,7 @@ class UpdateTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $updater = new Update($engineResourceUpdater);
+        $updater = new Update();
         $result = $updater->setLayout($layout)->setRecordId(1)->setData([])->update();
 
         $this->assertInstanceOf(Component::class, $result);

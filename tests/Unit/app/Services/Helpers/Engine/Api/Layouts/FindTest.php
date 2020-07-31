@@ -18,7 +18,7 @@ class FindTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $finder = new Find($engineResourceShower);
+        $finder = new Find();
         $result = $finder->setRecordId(123)->retrieve();
 
         $this->assertInstanceOf(Layout::class, $result);

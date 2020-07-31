@@ -28,7 +28,7 @@ class FindTest extends TestCase
                 'id' => 1
             ]);
 
-        $finder = new Find($engineResourceShower);
+        $finder = new Find();
         $finder->setLayout($layout)->setRecordId(123)->retrieve();
     }
 
@@ -39,7 +39,7 @@ class FindTest extends TestCase
         $engineResourceShower->shouldReceive('retrieve')->never();
 
         $this->expectException(LayoutIsNotDefinedException::class);
-        $finder = new Find($engineResourceShower);
+        $finder = new Find();
         $finder->setRecordId(123)->retrieve();
     }
 
@@ -54,7 +54,7 @@ class FindTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $finder = new Find($engineResourceShower);
+        $finder = new Find();
         $result = $finder->setLayout($layout)->setRecordId(123)->retrieve();
 
         $this->assertInstanceOf(Component::class, $result);

@@ -18,7 +18,7 @@ class StoreTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $creator = new Store($engineResourceCreator);
+        $creator = new Store();
         $result = $creator->setData([])->create();
 
         $this->assertInstanceOf(Layout::class, $result);

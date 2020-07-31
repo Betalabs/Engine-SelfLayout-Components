@@ -3,9 +3,9 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Actions;
 
 
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\CreatorInterface;
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\IndexerInterface;
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\UpdaterInterface;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceCreator;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceIndexer;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceUpdater;
 
 class UpdateOrCreate
 {
@@ -26,16 +26,16 @@ class UpdateOrCreate
      * Try to retrieve first instance to update from an index request. If
      * index returns empty, create resource at Engine API.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\IndexerInterface $indexer
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\UpdaterInterface $updater
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\CreatorInterface $creator
+     * @param \Betalabs\LaravelHelper\Services\Engine\EngineResourceIndexer $indexer
+     * @param \Betalabs\LaravelHelper\Services\Engine\EngineResourceUpdater $updater
+     * @param \Betalabs\LaravelHelper\Services\Engine\EngineResourceCreator $creator
      *
      * @return mixed
      */
     public function execute(
-        IndexerInterface $indexer,
-        UpdaterInterface $updater,
-        CreatorInterface $creator
+        EngineResourceIndexer $indexer,
+        EngineResourceUpdater $updater,
+        EngineResourceCreator $creator
     ) {
         $instance = $this->firstOrCreate->execute($indexer, $creator);
 

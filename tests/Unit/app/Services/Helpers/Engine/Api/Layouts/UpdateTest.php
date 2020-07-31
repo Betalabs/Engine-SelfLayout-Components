@@ -18,7 +18,7 @@ class UpdateTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $updater = new Update($engineResourceUpdater);
+        $updater = new Update();
         $result = $updater->setRecordId(1)->setData([])->update();
 
         $this->assertInstanceOf(Layout::class, $result);

@@ -26,7 +26,7 @@ class StoreTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $creator = new Store($engineResourceCreator);
+        $creator = new Store();
         $creator->setLayout($layout)->setData([])->create();
     }
 
@@ -38,7 +38,7 @@ class StoreTest extends TestCase
 
         $this->expectException(LayoutIsNotDefinedException::class);
 
-        $creator = new Store($engineResourceCreator);
+        $creator = new Store();
         $creator->setData([])->create();
     }
 
@@ -53,7 +53,7 @@ class StoreTest extends TestCase
             ->once()
             ->andReturn((object)['id' => 2]);
 
-        $creator = new Store($engineResourceCreator);
+        $creator = new Store();
         $result = $creator->setLayout($layout)->setData([])->create();
 
         $this->assertInstanceOf(Component::class, $result);

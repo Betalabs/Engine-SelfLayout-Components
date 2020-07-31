@@ -9,6 +9,7 @@ use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Color;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout;
 use Betalabs\EngineSelfLayoutComponents\Tests\TestCase;
 use Betalabs\LaravelHelper\Services\Engine\ResourceShower;
+use GuzzleHttp\Client;
 
 class FindTest extends TestCase
 {
@@ -17,6 +18,8 @@ class FindTest extends TestCase
         $layout = \Mockery::mock(Layout::class);
         $layout->shouldReceive('getId')->andReturn(123);
 
+        $guzzle = \Mockery::mock(Client::class);
+        $this->app->instance(Client::class, $guzzle);
         $engineResourceShower = \Mockery::mock(ResourceShower::class);
         $engineResourceShower->makePartial();
         $engineResourceShower->shouldReceive('setEndpointParameters')
@@ -28,7 +31,7 @@ class FindTest extends TestCase
                 'id' => 1
             ]);
 
-        $finder = new Find($engineResourceShower);
+        $finder = new Find();
         $finder->setLayout($layout)->setRecordId(123)->retrieve();
     }
 
