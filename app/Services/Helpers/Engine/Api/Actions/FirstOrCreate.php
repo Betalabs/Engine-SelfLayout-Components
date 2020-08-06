@@ -3,8 +3,8 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Actions;
 
 
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\CreatorInterface;
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\IndexerInterface;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceCreator;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceIndexer;
 
 class FirstOrCreate
 {
@@ -12,16 +12,16 @@ class FirstOrCreate
      * Try to retrieve first instance from an index request. If index returns
      * empty, create resource at Engine API.
      *
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\IndexerInterface $indexer
-     * @param \Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\CreatorInterface $creator
+     * @param \Betalabs\LaravelHelper\Services\Engine\EngineResourceIndexer $indexer
+     * @param \Betalabs\LaravelHelper\Services\Engine\EngineResourceCreator $creator
      *
      * @return mixed
      */
     public function execute(
-        IndexerInterface $indexer,
-        CreatorInterface $creator
+        EngineResourceIndexer $indexer,
+        EngineResourceCreator $creator
     ) {
-        $collection = $indexer->index();
+        $collection = $indexer->retrieve();
         if (null === $instance = $collection->first()) {
             $instance = $creator->create();
         }

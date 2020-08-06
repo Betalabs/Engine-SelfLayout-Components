@@ -26,7 +26,7 @@ class Find extends AbstractShower
             );
         }
 
-        $this->engineResourceShower->setEndpointParameters([
+        $this->setEndpointParameters([
             'layoutId' => $this->layout->getId()
         ]);
 

@@ -5,11 +5,11 @@ namespace Betalabs\EngineSelfLayoutComponents\Tests\Unit\app\Services\Helpers\En
 
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Actions\FirstOrCreate;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Actions\UpdateOrCreate;
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\CreatorInterface;
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\IndexerInterface;
-use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\UpdaterInterface;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\EngineModelInterface;
 use Betalabs\EngineSelfLayoutComponents\Tests\TestCase;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceCreator;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceIndexer;
+use Betalabs\LaravelHelper\Services\Engine\EngineResourceUpdater;
 
 class UpdateOrCreateTest extends TestCase
 {
@@ -20,10 +20,10 @@ class UpdateOrCreateTest extends TestCase
             ->once()
             ->andReturn(123);
 
-        $indexer = \Mockery::mock(IndexerInterface::class);
-        $creator = \Mockery::mock(CreatorInterface::class);
+        $indexer = \Mockery::mock(EngineResourceIndexer::class);
+        $creator = \Mockery::mock(EngineResourceCreator::class);
 
-        $updater = \Mockery::mock(UpdaterInterface::class);
+        $updater = \Mockery::mock(EngineResourceUpdater::class);
         $updater->shouldReceive('setRecordId')->once()->with(123);
         $updater->shouldReceive('update')->andReturn($instance);
 

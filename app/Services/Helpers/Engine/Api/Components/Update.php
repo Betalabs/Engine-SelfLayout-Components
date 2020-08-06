@@ -27,7 +27,7 @@ class Update extends AbstractUpdater
             );
         }
 
-        $this->engineResourceUpdater->setEndpointParameters([
+        $this->setEndpointParameters([
             'layoutId' => $this->layout->getId()
         ]);
 

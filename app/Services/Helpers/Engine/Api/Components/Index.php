@@ -22,7 +22,7 @@ class Index extends AbstractIndexer
      *
      * @return \Illuminate\Support\Collection
      */
-    public function index(): Collection
+    public function retrieve(): Collection
     {
         if (null === $this->layout) {
             throw new LayoutIsNotDefinedException(
@@ -30,11 +30,11 @@ class Index extends AbstractIndexer
             );
         }
 
-        $this->engineResourceIndexer->setEndpointParameters([
+        $this->setEndpointParameters([
             'layoutId' => $this->layout->getId()
         ]);
 
-        return parent::index();
+        return parent::retrieve();
     }
 
     /**
