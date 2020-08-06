@@ -5,6 +5,7 @@ namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\Compon
 
 use Betalabs\EngineSelfLayoutComponents\Exceptions\app\Services\Helpers\Engine\Api\Components\LayoutIsNotDefinedException;
 use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api\AbstractDestroyer;
+use Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout;
 
 class Destroy extends AbstractDestroyer
 {
@@ -38,7 +39,7 @@ class Destroy extends AbstractDestroyer
      *
      * @return Destroy
      */
-    public function setLayout(\Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Models\Layout $layout): Destroy
+    public function setLayout(Layout $layout): Destroy
     {
         $this->layout = $layout;
 

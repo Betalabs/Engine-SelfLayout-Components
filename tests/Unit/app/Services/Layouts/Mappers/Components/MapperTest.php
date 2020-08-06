@@ -37,7 +37,7 @@ class MapperTest extends TestCase
                 'name' => 'Name 2'
             ])
             ->andReturnSelf();
-        $engineApiComponentIndexer->shouldReceive('index')
+        $engineApiComponentIndexer->shouldReceive('retrieve')
             ->once()
             ->andReturn(collect());
 
@@ -205,7 +205,7 @@ class MapperTest extends TestCase
                 '_fields' => 'id'
             ])
             ->andReturnSelf();
-        $engineApiComponentIndexer->shouldReceive('index')
+        $engineApiComponentIndexer->shouldReceive('retrieve')
             ->once()
             ->andReturn(collect([
                 $engineComponentToRemove

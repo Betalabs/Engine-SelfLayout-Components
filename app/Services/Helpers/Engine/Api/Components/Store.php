@@ -29,7 +29,7 @@ class Store extends AbstractCreator
             );
         }
 
-        $this->engineResourceCreator->setEndpointParameters([
+        $this->setEndpointParameters([
             'layoutId' => $this->layout->getId()
         ]);
 

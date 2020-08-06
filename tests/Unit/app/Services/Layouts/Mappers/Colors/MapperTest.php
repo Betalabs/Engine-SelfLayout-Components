@@ -36,7 +36,7 @@ class MapperTest extends TestCase
                 'identification' => 'color-2'
             ])
             ->andReturnSelf();
-        $engineApiColorIndexer->shouldReceive('index')
+        $engineApiColorIndexer->shouldReceive('retrieve')
             ->once()
             ->andReturn(collect());
 
@@ -169,7 +169,7 @@ class MapperTest extends TestCase
                 '_fields' => 'id'
             ])
             ->andReturnSelf();
-        $engineApiColorIndexer->shouldReceive('index')
+        $engineApiColorIndexer->shouldReceive('retrieve')
             ->once()
             ->andReturn(collect([
                 $engineColorToRemove

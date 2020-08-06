@@ -3,9 +3,9 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api;
 
 
-use Betalabs\LaravelHelper\Services\Engine\AbstractUpdater as BaseAbstractUpdater;
+use Betalabs\LaravelHelper\Services\Engine\ResourceUpdater;
 
-abstract class AbstractUpdater extends BaseAbstractUpdater implements UpdaterInterface
+abstract class AbstractUpdater extends ResourceUpdater
 {
     /**
      * @return mixed

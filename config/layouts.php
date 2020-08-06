@@ -14,7 +14,7 @@ return [
     | here.
     */
     'available' => [
-        'seiko' => 'betalabs/seiko'
+        'basic-theme' => 'betalabs/engine-basic-theme'
     ],
 
     /*

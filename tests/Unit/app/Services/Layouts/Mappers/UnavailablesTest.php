@@ -40,7 +40,7 @@ class UnavailablesTest extends TestCase
 
         $engineApiLayoutIndexer = \Mockery::mock(EngineApiLayoutIndexer::class);
         $engineApiLayoutIndexer->makePartial();
-        $engineApiLayoutIndexer->shouldReceive('index')
+        $engineApiLayoutIndexer->shouldReceive('retrieve')
             ->twice()
             ->andReturn(collect([$engineLayout]));
         $engineApiLayoutDestroyer = \Mockery::mock(EngineApiLayoutDestroyer::class);
@@ -106,7 +106,7 @@ class UnavailablesTest extends TestCase
                 'alias' => 'already-destroyed'
             ])
             ->andReturnSelf();
-        $engineApiLayoutIndexer->shouldReceive('index')
+        $engineApiLayoutIndexer->shouldReceive('retrieve')
             ->once()
             ->andReturn(collect());
         $engineApiLayoutIndexer->shouldReceive('setQuery')
@@ -115,7 +115,7 @@ class UnavailablesTest extends TestCase
                 'alias' => 'test'
             ])
             ->andReturnSelf();
-        $engineApiLayoutIndexer->shouldReceive('index')
+        $engineApiLayoutIndexer->shouldReceive('retrieve')
             ->once()
             ->andReturn(collect([$engineLayout]));
 

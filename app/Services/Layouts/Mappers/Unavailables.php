@@ -83,7 +83,7 @@ class Unavailables extends AbstractMapper
             ])
             ->setLimit(1)
             ->setOffset(0)
-            ->index()
+            ->retrieve()
             ->first();
     }
 

@@ -124,7 +124,7 @@ class Mapper
                 'id-not-in' => $colorsIds->implode(','),
                 '_fields' => 'id'
             ])
-            ->index();
+            ->retrieve();
     }
 
     /**

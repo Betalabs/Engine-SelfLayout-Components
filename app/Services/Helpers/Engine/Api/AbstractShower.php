@@ -3,9 +3,9 @@
 namespace Betalabs\EngineSelfLayoutComponents\Services\Helpers\Engine\Api;
 
 
-use Betalabs\LaravelHelper\Services\Engine\AbstractShower as BaseAbstractShower;
+use Betalabs\LaravelHelper\Services\Engine\ResourceShower;
 
-class AbstractShower extends BaseAbstractShower
+class AbstractShower extends ResourceShower
 {
     /**
      * Retrieve a resource on engine
