@@ -53,7 +53,7 @@ RUN sed -i "s@BACKEND_PATH@$BACKEND_PATH@g" /etc/supervisor/conf.d/supervisord.c
 COPY ./ ${BACKEND_PATH}
 
 # Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.16
 RUN rm -f ${BACKEND_PATH}/bootstrap/cache/routes.php && \
     rm -f ${BACKEND_PATH}/bootstrap/cache/packages.php && \
     rm -f ${BACKEND_PATH}/bootstrap/cache/services.php && \
