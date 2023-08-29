@@ -11,21 +11,21 @@
     "keywords": [],
     "require": {
         "php": "^7.4",
-        "betalabs/engine-basic-theme": "dev-master",
-        "betalabs/engine-laravel-helper": "^0.8.0",
-        "betalabs/engine-phpsdk": "^0.6.2",
-        "diegohq/laravel-seeder": "^5.10",
+        "betalabs/engine-laravel-helper": "^2.0",
+        "betalabs/engine-phpsdk": "^1.3",
+        "diegohq/laravel-seeder": "^6.0",
         "fideloper/proxy": "^4.2",
+        "firebase/php-jwt": "6.0.0",
         "fruitcake/laravel-cors": "^1.0",
-        "guzzlehttp/guzzle": "^6.5.6",
-        "laravel/framework": "^6.20.12",
-        "laravel/tinker": "^1.0"
+        "guzzlehttp/guzzle": "^6.3|^7.0.1",
+        "laravel/framework": "^8.75",
+        "laravel/tinker": "^2.5"
     },
     "require-dev": {
         "facade/ignition": "^1.0",
         "fzaninotto/faker": "^1.9.1",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^3.0",
+        "nunomaduro/collision": "^5.10",
         "phpunit/phpunit": "^8.5"
     },
     "config": {
