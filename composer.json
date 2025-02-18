@@ -18,8 +18,11 @@
         "firebase/php-jwt": "6.0.0",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3|^7.0.1",
-        "laravel/framework": "^8.75",
-        "laravel/tinker": "^2.5"
+        "laravel/framework": "8.83.28",
+        "laravel/tinker": "^2.5",
+        "league/commonmark": "2.6.0",
+        "nesbot/carbon": "2.72.6",
+        "symfony/http-foundation": "5.4.46"
     },
     "require-dev": {
         "facade/ignition": "^1.0 || ^2.0",
